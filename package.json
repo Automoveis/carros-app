@@ -1,0 +1,14 @@
+{
+  "name": "carros-app",
+  "version": "1.0.0",
+  "description": "Calculadora de carros usados com scraping OLX/Standvirtual",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "puppeteer": "^23.3.0",
+    "cors": "^2.8.5"
+  }
+}
