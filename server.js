@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const { buscarPrecoMedio } = require('./scraping');
 
 const app = express();
@@ -8,6 +9,13 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
+// Rota para o frontend
+app.use(express.static(path.join(__dirname, 'frontend')));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+});
+
+// Rota existente para cálculo de preço médio
 app.post('/preco-medio', async (req, res) => {
     const { marca, modelo, ano } = req.body;
 
