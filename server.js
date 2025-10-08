@@ -7,16 +7,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// --- Servir frontend estático ---
+// Servir frontend estático
 const frontendPath = path.join(__dirname, 'frontend');
 app.use(express.static(frontendPath));
 
-// Redirecionar qualquer acesso à raiz para index.html
+// Rota raiz
 app.get('/', (req, res) => {
   res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
-// --- Rota para cálculo de preço médio ---
+// Rota teste para confirmar que o servidor está online
+app.get('/ping', (req, res) => res.send('Servidor OK'));
+
+// Rota de preço médio
 app.post('/preco-medio', async (req, res) => {
     const { marca, modelo, ano } = req.body;
 
@@ -33,8 +36,8 @@ app.post('/preco-medio', async (req, res) => {
     }
 });
 
-// --- Porta dinâmica para Render ---
+// Porta dinâmica do Render
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+    console.log(`Servidor rodando na porta ${PORT}`);
 });
