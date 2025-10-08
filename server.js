@@ -7,15 +7,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 3000;
+// --- Servir frontend estático ---
+const frontendPath = path.join(__dirname, 'frontend');
+app.use(express.static(frontendPath));
 
-// Servir frontend
-app.use(express.static(path.join(__dirname, 'frontend')));
+// Redirecionar qualquer acesso à raiz para index.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+  res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
-// Rota para cálculo de preço médio
+// --- Rota para cálculo de preço médio ---
 app.post('/preco-medio', async (req, res) => {
     const { marca, modelo, ano } = req.body;
 
@@ -27,11 +28,13 @@ app.post('/preco-medio', async (req, res) => {
         const precoMedio = await buscarPrecoMedio(marca, modelo, ano);
         res.json({ precoMedio });
     } catch (error) {
-        console.error(error);
+        console.error('Erro ao buscar preços:', error);
         res.status(500).json({ error: 'Erro ao buscar preços' });
     }
 });
 
+// --- Porta dinâmica para Render ---
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
