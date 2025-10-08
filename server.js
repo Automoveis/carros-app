@@ -9,13 +9,13 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
-// Rota para o frontend
+// Servir frontend
 app.use(express.static(path.join(__dirname, 'frontend')));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
-// Rota existente para cálculo de preço médio
+// Rota para cálculo de preço médio
 app.post('/preco-medio', async (req, res) => {
     const { marca, modelo, ano } = req.body;
 
